@@ -1,0 +1,16 @@
+{
+	"version": "2.0.0",
+	"tasks": [
+		{
+			"label": "Update Justice File System",
+			"type": "shell",
+			"command": "C:/Users/ssped/AppData/Local/Programs/Python/Python313/python.exe",
+			"args": [
+				"MASTER_JUSTICE_FILE_SUPREME.py"
+			],
+			"group": "build",
+			"isBackground": false,
+			"problemMatcher": []
+		}
+	]
+}
