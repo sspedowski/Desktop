@@ -1,0 +1,21 @@
+# Core data & Excel
+pandas
+openpyxl
+
+# AI client
+openai
+
+# Text extraction helpers
+pdfplumber
+docx2txt
+
+# Markdown handling & PDF export
+markdown
+weasyprint  # Requires system deps: Cairo, Pango, GDK-PixBuf (on Windows use official wheels)
+reportlab   # Fallback minimal PDF writer
+
+# GUI (tkinter) ships with standard CPython on Windows/macOS. On some Linux: sudo apt install python3-tk
+
+# Optional future OCR / NLP (disabled)
+# pytesseract
+# spacy

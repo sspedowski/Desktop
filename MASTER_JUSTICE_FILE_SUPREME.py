@@ -1,3 +1,18 @@
+"""SUPREME MASTER JUSTICE FILE
+
+Core evidence data & Excel generator.
+
+New Automation (AI Pipeline & GUI):
+ - Use `JUSTICE_FILE_GUI.py` for one-click AI tasks (Summaries A, Contradictions B, Brief C)
+ - Or run pipeline directly:
+     python MASTER_PIPELINE_GPT5.py --input evidence --tasks A,B,C --children "Jace,Josh" --out pipeline/outputs
+ - Dry run (no API calls): add --dry-run or toggle in GUI
+ - AI outputs auto-sync into Excel sheet `AI_Outputs` and export PDFs (non-dry runs)
+
+Manual Update Flow (unchanged):
+ - Edit `master_data` below then run this script to regenerate Excel file.
+"""
+
 import pandas as pd
 from datetime import datetime
 from openpyxl import Workbook

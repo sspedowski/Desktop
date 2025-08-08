@@ -22,7 +22,12 @@ This system is built to:
 * `JUSTICE_FILE_IMPORTER.py` — Bulk import tool for new documents
 * `JUSTICE_FILE_MANAGER.py` — Validation & export tools for legal teams
 * `JUSTICE_FILE_QUICK_UPDATE.py` — Fast single document addition
+* `MASTER_PIPELINE_GPT5.py` — AI pipeline (Tasks A: Summaries, B: Contradictions, C: Brief)
+* `JUSTICE_FILE_GUI.py` — One-click GUI control panel (tasks, dry-run, open outputs)
+* `pipeline/` — Prompts + utilities (pdf export, excel sync, text extraction)
+* `legal_export/pdf/` — Auto-generated PDF versions of AI outputs
 * `JUSTICE_FILE_USER_GUIDE.md` — Comprehensive usage instructions
+* `requirements.txt` — Python dependencies
 * `README.md` — You are here (project overview and usage)
 * (Optional) Batch folders and cloud/Dropbox backup
 
@@ -44,22 +49,63 @@ This system is built to:
 
 ## 🟦 How To Use
 
-### **Quick Start (Most Common):**
+### **Option 1: GUI (Fastest)**
+
+1. Install deps: `pip install -r requirements.txt`
+2. (Optional) Set API key for real AI: PowerShell → `$env:OPENAI_API_KEY="sk-..."` and `$env:OPENAI_MODEL="gpt-5"`
+3. Run: `python JUSTICE_FILE_GUI.py`
+4. Pick evidence folder (containing `.txt` / `.md` source files)
+5. Select Tasks (A,B,C) or press "Run All"
+6. Watch live log. PDFs + Excel AI_Outputs sheet update automatically.
+7. Use buttons to open outputs, PDFs, Excel.
+
+Use the "Dry Run" checkbox to test without API calls (generates placeholder markdown).
+
+### **Option 2: Command-Line Pipeline**
+
+Run everything directly:
+
+```powershell
+python MASTER_PIPELINE_GPT5.py --input evidence --tasks A,B,C --children "Jace,Josh" --out pipeline/outputs
+```
+
+Dry run test (no API):
+
+```powershell
+python MASTER_PIPELINE_GPT5.py --input evidence --tasks A,B,C --dry-run
+```
+
+### **Option 3: Core Excel Refresh**
+
+Use when only updating the Justice Master Table:
+
+```powershell
+python MASTER_JUSTICE_FILE_SUPREME.py
+```
+
+### **Option 4: Manual Script Workflow (Original)**
+
+Still supported. Same behavior as before.
+
+### **Quick Start (Legacy Manual Method):**
+
 1. **Add new documents to `master_data` in the .py script**
 2. **Run the script to regenerate the Excel file**
 3. **Review, print, and submit as needed (for court, audit, oversight, or AI import)**
 
 ### **Advanced Tools:**
-- **Quick Add:** Run `JUSTICE_FILE_QUICK_UPDATE.py` for interactive document addition
-- **Bulk Import:** Run `JUSTICE_FILE_IMPORTER.py` to import entire folders
-- **Validation:** Run `JUSTICE_FILE_MANAGER.py` to check integrity and export for legal teams
-- **Always backup:** System creates automatic backups before major changes
+
+* **Quick Add:** Run `JUSTICE_FILE_QUICK_UPDATE.py` for interactive document addition
+* **Bulk Import:** Run `JUSTICE_FILE_IMPORTER.py` to import entire folders
+* **Validation:** Run `JUSTICE_FILE_MANAGER.py` to check integrity and export for legal teams
+* **Always backup:** System creates automatic backups before major changes
 
 ### **For Legal Teams:**
-- Use the auto-generated legal export packages
-- Export smoking guns and Top 5 evidence separately
-- Generate cross-reference maps for contradiction analysis
-- Create timeline exports for court presentations
+
+* Use the auto-generated legal export packages
+* Export smoking guns and Top 5 evidence separately
+* Generate cross-reference maps for contradiction analysis
+* Create timeline exports for court presentations
 
 ---
 
@@ -80,32 +126,75 @@ This system is built to:
 ## 🔥 System Capabilities
 
 ### **Evidence Management:**
-- ✅ 5 Smoking Gun documents already cataloged
-- ✅ Pattern-based color coding for instant recognition
-- ✅ Cross-reference mapping between contradictory documents
-- ✅ Legal violation tracking with specific statute citations
-- ✅ Agency misconduct documentation with proof
+
+* ✅ 5 Smoking Gun documents already cataloged
+* ✅ Pattern-based color coding for instant recognition
+* ✅ Cross-reference mapping between contradictory documents
+* ✅ Legal violation tracking with specific statute citations
+* ✅ Agency misconduct documentation with proof
 
 ### **Export Options:**
-- 📊 Excel workbook with multiple analysis sheets
-- 📄 PDF-ready formatting for court submissions
-- 🔍 Smoking gun evidence packages
-- 📈 Statistical summaries and case strength metrics
-- ⚖️ Legal team export packages with organized evidence
+
+* 📊 Excel workbook with multiple analysis sheets
+* 📄 PDF-ready formatting for court submissions
+* 🔍 Smoking gun evidence packages
+* 📈 Statistical summaries and case strength metrics
+* ⚖️ Legal team export packages with organized evidence
 
 ### **Faith & Purpose:**
-- 🙏 Integrated prayer and dedication tracking
-- ✝️ Scriptural foundation for justice work
-- 💪 Spiritual strength documentation throughout the process
+
+* 🙏 Integrated prayer and dedication tracking
+* ✝️ Scriptural foundation for justice work
+* 💪 Spiritual strength documentation throughout the process
 
 ---
 
 ## 🛠️ Technical Requirements
 
-- Python 3.6+ with pandas and openpyxl libraries
-- Microsoft Excel or LibreOffice for viewing output
-- Windows, Mac, or Linux compatible
-- Cloud storage recommended for backups (Dropbox, Google Drive)
+Python 3.10+ recommended.
+
+Install everything:
+
+```powershell
+pip install -r requirements.txt
+```
+
+Key packages:
+
+* pandas / openpyxl (Excel)
+* openai (LLM client)
+* markdown, weasyprint, reportlab (PDF generation)
+* pdfplumber, docx2txt (future extraction expansion)
+
+### Environment Variables
+Set before running real AI calls:
+
+```powershell
+$env:OPENAI_API_KEY="sk-..."
+$env:OPENAI_MODEL="gpt-5"   # or override in client if needed
+```
+If unset or using `--dry-run`, pipeline creates placeholders.
+
+### Windows WeasyPrint Notes
+If PDF export errors mention Cairo / Pango:
+1. Install precompiled wheels (most modern Python distributions already bundle)
+2. Or use fallback ReportLab output (plain) — script auto-falls back
+3. Ensure fonts installed (e.g., Arial) for consistent layout
+
+### Dry Run Mode
+Use GUI checkbox or `--dry-run` to:
+* Skip API calls
+* Produce deterministic placeholder markdown
+* Still sync rows into `AI_Outputs` sheet
+* Skip PDF conversion (by design)
+
+### Output Locations
+* Raw markdown: `pipeline/outputs/`
+* PDFs: `legal_export/pdf/` (skipped in dry run)
+* Excel metadata: `MASTER_JUSTICE_FILE_SUPREME_v1.xlsx` sheet `AI_Outputs`
+
+### Adding New File Types Later
+Extend `pipeline/utils/text_extract.py` with PDF/DOCX logic then allow `.pdf/.docx` in `list_documents()`.
 
 ---
 

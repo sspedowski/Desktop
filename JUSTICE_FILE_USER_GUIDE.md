@@ -31,6 +31,34 @@ Your desktop now contains a complete Justice File management system:
 3. Edit generated templates with document details
 4. Merge templates to master file
 
+### **Option 4: One-Click AI GUI (New)**
+1. Install dependencies: `pip install -r requirements.txt`
+2. (Optional real AI) Set API key in PowerShell:
+  ```powershell
+  $env:OPENAI_API_KEY="sk-..."
+  $env:OPENAI_MODEL="gpt-5"
+  ```
+3. Run the control panel: `python JUSTICE_FILE_GUI.py`
+4. Select evidence folder (must contain `.txt` / `.md` sources for now)
+5. Choose tasks:
+  * A = Summaries (per document structured output)
+  * B = Contradictions Map (all docs)
+  * C = Evidence Brief (integrated narrative)
+6. (Optional) Toggle "Dry Run" to produce placeholder outputs without API cost
+7. Click "Run Selected" or use "Run All (A,B,C)"
+8. Monitor live log window; open Outputs / PDFs / Excel with buttons
+
+Outputs:
+* Raw markdown: `pipeline/outputs/`
+* PDFs (non dry-run): `legal_export/pdf/`
+* Excel enrichment: New rows in `AI_Outputs` sheet in `MASTER_JUSTICE_FILE_SUPREME_v1.xlsx`
+
+Dry Run Behavior:
+* Skips API calls
+* Creates deterministic placeholder markdown
+* Skips PDF conversion
+* Still appends metadata rows into Excel (so you can test flow)
+
 ---
 
 ## 📊 WHAT'S IN YOUR EXCEL FILE
