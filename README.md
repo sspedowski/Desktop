@@ -20,16 +20,13 @@ This system is built to:
 
 ## 📂 Project Structure
 
-- `MASTER_JUSTICE_FILE_SUPREME.py` — Python script to generate/update the master
-	Excel
+- `MASTER_JUSTICE_FILE_SUPREME.py` — Generate/update the master Excel workbook
 - `MASTER_JUSTICE_FILE_SUPREME_v1.xlsx` — Color-coded, phase-tracked Excel file
 - `JUSTICE_FILE_IMPORTER.py` — Bulk import tool for new documents
 - `JUSTICE_FILE_MANAGER.py` — Validation & export tools for legal teams
 - `JUSTICE_FILE_QUICK_UPDATE.py` — Fast single document addition
-- `MASTER_PIPELINE_GPT5.py` — AI pipeline (Tasks A: Summaries, B:
-	Contradictions, C: Brief)
-- `JUSTICE_FILE_GUI.py` — One-click GUI control panel (tasks, dry-run, open
-	outputs)
+- `MASTER_PIPELINE_GPT5.py` — AI pipeline (Tasks A: Summaries, B: Contradictions, C: Brief)
+- `JUSTICE_FILE_GUI.py` — One-click GUI control panel (tasks, dry-run, open outputs)
 - `pipeline/` — Prompts + utilities (pdf export, excel sync, text extraction)
 - `legal_export/pdf/` — Auto-generated PDF versions of AI outputs
 - `JUSTICE_FILE_USER_GUIDE.md` — Comprehensive usage instructions
@@ -42,17 +39,12 @@ This system is built to:
 ## 🟩 Key Features
 
 - **Dedication & Prayer Sheet:** Opens every file with mission, faith, and hope
-- **Phase Status Tracking:** Know at a glance which phases are complete or
-	pending
-- **Justice Master Table:** Every "kept" doc, every legal pattern, every
-	contradiction
-- **Pattern Color Coding:** Instantly spot agency, judicial, FOC, GAL, APA
-	patterns
-- **Smoking Gun Highlighting:** Top 5 key evidence items jump off the page
-- **Cross-Link Mapping:** Direct links between contradictions and supporting
-	docs
-- **Court/AI Ready:** Clean export for PDF, e-filing, Humata/Wolfram, and more
-- **Automated Tools:** Import, validate, and manage documents with ease
+- **Phase Status Tracking:** Instant view of completed vs pending phases
+- **Justice Master Table:** Central index of documents, patterns, contradictions
+- **Pattern Color Coding:** Agency, judicial, FOC, GAL, APA pattern spotting
+- **Cross-Link Mapping:** Linked contradictions ↔ supporting documents
+- **Court/AI Ready:** PDF / e-filing / AI ingestion optimized outputs
+- **Automated Tools:** Import, validate, and manage documents quickly
 - **Faith Integration:** Prayer and spiritual guidance tracking throughout
 
 ---
@@ -62,8 +54,8 @@ This system is built to:
 ### **Option 1: GUI (Fastest)**
 
 1. Install deps: `pip install -r requirements.txt`
-1. (Optional) Set API key for real AI: PowerShell →
-	`$env:OPENAI_API_KEY="sk-..."` and `$env:OPENAI_MODEL="gpt-5"`
+<!-- markdownlint-disable-next-line MD013 -->
+1. (Optional) Set API key for real AI: PowerShell → `$env:OPENAI_API_KEY="sk-..."` and `$env:OPENAI_MODEL="gpt-5"`
 1. Run: `python JUSTICE_FILE_GUI.py`
 1. Pick evidence folder (containing `.txt` / `.md` source files)
 1. Select Tasks (A,B,C) or press "Run All"
@@ -79,8 +71,8 @@ Run everything directly:
 
 ```powershell
 python MASTER_PIPELINE_GPT5.py --input evidence --tasks A,B,C \
-	--children "Jace,Josh" \
-	--out pipeline/outputs
+    --children "Jace,Josh" \
+    --out pipeline/outputs
 ```
 
 Dry run test (no API):
@@ -109,11 +101,10 @@ Still supported. Same behavior as before.
 
 ### **Advanced Tools:**
 
-- **Quick Add:** Run `JUSTICE_FILE_QUICK_UPDATE.py` for interactive document
-	addition
+- **Quick Add:** Run `JUSTICE_FILE_QUICK_UPDATE.py` for interactive document addition
 - **Bulk Import:** Run `JUSTICE_FILE_IMPORTER.py` to import entire folders
 - **Validation:** Run `JUSTICE_FILE_MANAGER.py` to check integrity and export
-	for legal teams
+    for legal teams
 - **Always backup:** System creates automatic backups before major changes
 
 ### **For Legal Teams:**
@@ -244,7 +235,7 @@ Write JSON to file too:
 
 ```powershell
 python pipeline/diagnostics/quick_check.py --min-python 3.10 \
-	--out health.json --html health.html
+    --out health.json --html health.html
 ```
 
 Key flags:
