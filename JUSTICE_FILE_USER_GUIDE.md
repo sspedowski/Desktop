@@ -5,55 +5,63 @@
 Your desktop now contains a complete Justice File management system:
 
 1. **`MASTER_JUSTICE_FILE_SUPREME.py`** - Main data file & Excel generator
-2. **`MASTER_JUSTICE_FILE_SUPREME_v1.xlsx`** - Multi-tab Excel workbook (auto-generated)
-3. **`JUSTICE_FILE_IMPORTER.py`** - Bulk import tool for new documents
-4. **`JUSTICE_FILE_MANAGER.py`** - Validation & export tools
-5. **`JUSTICE_FILE_QUICK_UPDATE.py`** - Fast single document addition
+1. **`MASTER_JUSTICE_FILE_SUPREME_v1.xlsx`** - Multi-tab Excel workbook (auto-generated)
+1. **`JUSTICE_FILE_IMPORTER.py`** - Bulk import tool for new documents
+1. **`JUSTICE_FILE_MANAGER.py`** - Validation & export tools
+1. **`JUSTICE_FILE_QUICK_UPDATE.py`** - Fast single document addition
 
 ---
 
 ## 🚀 QUICK START GUIDE
 
 ### **Option 1: Update Main File (Most Common)**
+
 1. Open `MASTER_JUSTICE_FILE_SUPREME.py` in any text editor
-2. Add new document entries to the `master_data` list
-3. Double-click the file or run: `python MASTER_JUSTICE_FILE_SUPREME.py`
-4. Excel file updates automatically with all formatting
+1. Add new document entries to the `master_data` list
+1. Double-click the file or run: `python MASTER_JUSTICE_FILE_SUPREME.py`
+1. Excel file updates automatically with all formatting
 
 ### **Option 2: Quick Add Single Document**
+
 1. Run: `python JUSTICE_FILE_QUICK_UPDATE.py`
-2. Follow interactive prompts to add document details
-3. Merge pending documents when ready
+1. Follow interactive prompts to add document details
+1. Merge pending documents when ready
 
 ### **Option 3: Bulk Import from Folder**
+
 1. Run: `python JUSTICE_FILE_IMPORTER.py`
-2. Point to folder with PDF/DOC files
-3. Edit generated templates with document details
-4. Merge templates to master file
+1. Point to folder with PDF/DOC files
+1. Edit generated templates with document details
+1. Merge templates to master file
 
 ### **Option 4: One-Click AI GUI (New)**
+
 1. Install dependencies: `pip install -r requirements.txt`
-2. (Optional real AI) Set API key in PowerShell:
+1. (Optional real AI) Set API key in PowerShell:
+
   ```powershell
   $env:OPENAI_API_KEY="sk-..."
   $env:OPENAI_MODEL="gpt-5"
   ```
-3. Run the control panel: `python JUSTICE_FILE_GUI.py`
-4. Select evidence folder (must contain `.txt` / `.md` sources for now)
-5. Choose tasks:
-  * A = Summaries (per document structured output)
-  * B = Contradictions Map (all docs)
-  * C = Evidence Brief (integrated narrative)
-6. (Optional) Toggle "Dry Run" to produce placeholder outputs without API cost
-7. Click "Run Selected" or use "Run All (A,B,C)"
-8. Monitor live log window; open Outputs / PDFs / Excel with buttons
+1. Run the control panel: `python JUSTICE_FILE_GUI.py`
+1. Select evidence folder (must contain `.txt` / `.md` sources for now)
+1. Choose tasks:
+
+  - A = Summaries (per document structured output)
+  - B = Contradictions Map (all docs)
+  - C = Evidence Brief (integrated narrative)
+1. (Optional) Toggle "Dry Run" to produce placeholder outputs without API cost
+1. Click "Run Selected" or use "Run All (A,B,C)"
+1. Monitor live log window; open Outputs / PDFs / Excel with buttons
 
 Outputs:
+
 * Raw markdown: `pipeline/outputs/`
 * PDFs (non dry-run): `legal_export/pdf/`
 * Excel enrichment: New rows in `AI_Outputs` sheet in `MASTER_JUSTICE_FILE_SUPREME_v1.xlsx`
 
 Dry Run Behavior:
+
 * Skips API calls
 * Creates deterministic placeholder markdown
 * Skips PDF conversion
@@ -96,8 +104,8 @@ Dry Run Behavior:
 ### **Adding New Documents to Master File:**
 
 1. Open `MASTER_JUSTICE_FILE_SUPREME.py`
-2. Find the `master_data = [` section
-3. Add new entries like this:
+1. Find the `master_data = [` section
+1. Add new entries like this:
 
 ```python
     {
@@ -132,41 +140,52 @@ Dry Run Behavior:
 ## 🛠️ MAINTENANCE TOOLS
 
 ### **Validate Data Integrity:**
-```
+
+```bash
 python JUSTICE_FILE_MANAGER.py
-Choose option 1
 ```
-- Checks for missing required fields
-- Identifies duplicate files
-- Flags incomplete reviews
+
+Then choose option 1.
+
+* Checks for missing required fields
+* Identifies duplicate files
+* Flags incomplete reviews
 
 ### **Export for Legal Team:**
-```
+
+```bash
 python JUSTICE_FILE_MANAGER.py
-Choose option 3
 ```
-- Creates organized export folder
-- Separates smoking guns, Top 5, patterns
-- Generates timeline and summary
+
+Then choose option 3.
+
+* Creates organized export folder
+* Separates smoking guns, Top 5, patterns
+* Generates timeline and summary
 
 ### **Create System Backup:**
-```
+
+```bash
 python JUSTICE_FILE_MANAGER.py
-Choose option 5
 ```
-- Backs up all system files
-- Timestamped for version control
+
+Then choose option 5.
+
+* Backs up all system files
+* Timestamped for version control
 
 ---
 
 ## 📤 SHARING WITH LEGAL COUNSEL
 
 ### **For Court Submissions:**
+
 1. Use the Excel file directly - it's print-ready
 2. Export specific patterns/smoking guns using Manager tool
 3. Include the Case Summary for overview
 
 ### **For AI Analysis (Humata, ChatGPT, etc.):**
+
 1. Upload the Excel file for comprehensive analysis
 2. Use individual pattern exports for focused review
 3. Include cross-reference map for relationship analysis
@@ -189,12 +208,14 @@ Choose option 5
 ## 🚨 EMERGENCY PROCEDURES
 
 ### **If You Need to Quickly Add Critical Evidence:**
+
 1. Run `JUSTICE_FILE_QUICK_UPDATE.py`
 2. Use interactive prompts for fast entry
 3. Mark as smoking gun and Top 5 if applicable
 4. Merge immediately and regenerate Excel
 
 ### **If System Gets Corrupted:**
+
 1. System auto-creates backups before major changes
 2. Look for files named `*_backup_*` with timestamps
 3. Restore from most recent backup
@@ -205,26 +226,28 @@ Choose option 5
 ## 🙏 FAITH & PRAYER INTEGRATION
 
 ### **Adding Spiritual Elements:**
-- Include prayers and dedications in the "Faith/Prayer" field
-- Update the Dedication & Prayer sheet with new inspirations
-- Document moments of spiritual guidance in Reviewer Notes
+
+* Include prayers and dedications in the "Faith/Prayer" field
+* Update the Dedication & Prayer sheet with new inspirations
+* Document moments of spiritual guidance in Reviewer Notes
 
 ### **Scripture References for Justice:**
-- Amos 5:24 - "Let justice roll down like waters"
-- Psalm 9:9 - "The Lord is a refuge for the oppressed"
-- Isaiah 1:17 - "Learn to do right; seek justice"
+
+* Amos 5:24 - "Let justice roll down like waters"
+* Psalm 9:9 - "The Lord is a refuge for the oppressed"
+* Isaiah 1:17 - "Learn to do right; seek justice"
 
 ---
 
 ## 🔥 FINAL REMINDERS
 
 1. **Always backup before major changes**
-2. **Run the master Python script after any updates**
-3. **Keep original documents safe and accessible**
-4. **Update Phase Status sheet regularly**
-5. **Cross-reference new documents with existing evidence**
-6. **Mark smoking guns and Top 5 items clearly**
-7. **Include faith/prayer elements for spiritual strength**
+1. **Run the master Python script after any updates**
+1. **Keep original documents safe and accessible**
+1. **Update Phase Status sheet regularly**
+1. **Cross-reference new documents with existing evidence**
+1. **Mark smoking guns and Top 5 items clearly**
+1. **Include faith/prayer elements for spiritual strength**
 
 ---
 

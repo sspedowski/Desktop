@@ -11,6 +11,32 @@
 			"group": "build",
 			"isBackground": false,
 			"problemMatcher": []
+		},
+		{
+			"label": "Justice: Quick Check (deps-only)",
+			"type": "shell",
+			"command": "python",
+			"args": [
+				"pipeline/diagnostics/quick_check.py",
+				"--deps-only",
+				"--timing"
+			],
+			"group": "test",
+			"problemMatcher": []
+		},
+		{
+			"label": "Justice: Full Dry-Run (verbose)",
+			"type": "shell",
+			"command": "python",
+			"args": [
+				"pipeline/diagnostics/quick_check.py",
+				"--timing",
+				"--verbose",
+				"--out",
+				"health.json"
+			],
+			"group": "test",
+			"problemMatcher": []
 		}
 	]
 }
