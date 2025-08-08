@@ -113,16 +113,13 @@ def main():
         print("Task C complete.")
 
     print(f"Outputs written to: {out_dir}")
-    # PDF export stage
+    # PDF export stage (now also runs in dry-run for layout testing)
     pdf_dir = Path("legal_export/pdf")
-    if args.dry_run:
-        print("Dry-run: Skipping PDF export.")
-    else:
-        try:
-            converted = bulk_convert(out_dir, pdf_dir)
-            print(f"PDF export complete: {converted} files -> {pdf_dir}")
-        except Exception as e:
-            print(f"PDF export skipped (error): {e}")
+    try:
+        converted = bulk_convert(out_dir, pdf_dir)
+        print(f"PDF export complete: {converted} files -> {pdf_dir}")
+    except Exception as e:
+        print(f"PDF export skipped (error): {e}")
 
     # Excel sync stage
     excel_path = Path("MASTER_JUSTICE_FILE_SUPREME_v1.xlsx")
