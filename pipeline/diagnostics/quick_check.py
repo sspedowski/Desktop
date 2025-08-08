@@ -21,6 +21,8 @@ from pathlib import Path
 import importlib
 import tempfile
 import textwrap
+import time
+import argparse
 
 ROOT = Path(__file__).resolve().parents[2]
 PIPELINE = ROOT / 'MASTER_PIPELINE_GPT5.py'
@@ -83,7 +85,8 @@ def ensure_sample_evidence():
     return sample
 
 
-def run_dry_pipeline():
+def run_dry_pipeline(timing: bool=False):
+    t0 = time.time()
     if not PIPELINE.exists():
         return {'ok': False, 'error': 'Pipeline script missing'}
     ensure_sample_evidence()
@@ -93,17 +96,26 @@ def run_dry_pipeline():
         ok = proc.returncode == 0
         lines = proc.stdout.strip().splitlines()
         tail = lines[-12:]
-        return {
+        result = {
             'ok': ok,
             'returncode': proc.returncode,
             'tail': tail,
             'stdout_bytes': len(proc.stdout.encode('utf-8')),
             'stderr': proc.stderr.strip() or None
         }
+        if timing:
+            result['duration_sec'] = round(time.time() - t0, 3)
+        return result
     except subprocess.TimeoutExpired:
-        return {'ok': False, 'error': 'Pipeline timeout'}
+        r = {'ok': False, 'error': 'Pipeline timeout'}
+        if timing:
+            r['duration_sec'] = round(time.time() - t0, 3)
+        return r
     except Exception as e:
-        return {'ok': False, 'error': str(e)}
+        r = {'ok': False, 'error': str(e)}
+        if timing:
+            r['duration_sec'] = round(time.time() - t0, 3)
+        return r
 
 
 def scan_outputs():
@@ -117,20 +129,44 @@ def scan_outputs():
 
 
 def main():
-    py_info = check_python()
-    imports = check_imports()
-    pipeline_result = run_dry_pipeline()
-    artifacts = scan_outputs()
+    parser = argparse.ArgumentParser(description='Justice File quick environment & pipeline checker')
+    parser.add_argument('--deps-only', action='store_true', help='Only verify Python & imports; skip dry-run pipeline execution')
+    parser.add_argument('--timing', action='store_true', help='Include timing metrics for steps')
+    args = parser.parse_args()
 
-    overall_ok = py_info['ok'] and imports['pdf_engine_ok'] and all(imports.get(m) for m in CORE_MODULES) and pipeline_result.get('ok')
+    timings = {}
+    t_start = time.time()
+    t0 = time.time(); py_info = check_python(); timings['python_check'] = round(time.time()-t0,3) if args.timing else None
+    t0 = time.time(); imports = check_imports(); timings['import_check'] = round(time.time()-t0,3) if args.timing else None
+
+    deps_missing = (not py_info['ok']) or (not imports['pdf_engine_ok']) or any(not imports.get(m) for m in CORE_MODULES)
+    auto_deps_only = False
+    if deps_missing and not args.deps_only:
+        auto_deps_only = True
+
+    pipeline_result = {'skipped': True}
+    artifacts = {'md_files': 0, 'pdf_files': 0, 'excel_exists': EXCEL.exists()}
+    if not (args.deps_only or auto_deps_only):
+        t0 = time.time(); pipeline_result = run_dry_pipeline(timing=args.timing); timings['pipeline_run'] = round(time.time()-t0,3) if args.timing else None
+        t0 = time.time(); artifacts = scan_outputs(); timings['artifact_scan'] = round(time.time()-t0,3) if args.timing else None
+
+    overall_ok = py_info['ok'] and imports['pdf_engine_ok'] and all(imports.get(m) for m in CORE_MODULES)
+    if not (args.deps_only or auto_deps_only):
+        overall_ok = overall_ok and pipeline_result.get('ok', False)
 
     report = {
         'python': py_info,
         'imports': imports,
         'pipeline': pipeline_result,
         'artifacts': artifacts,
-        'overall_ok': overall_ok
+        'overall_ok': overall_ok,
+        'mode': 'deps-only' if (args.deps_only or auto_deps_only) else 'full',
     }
+    if auto_deps_only:
+        report['note'] = 'Dependencies missing -> auto switched to deps-only mode'
+    if args.timing:
+        timings['total'] = round(time.time()-t_start,3)
+        report['timings'] = {k:v for k,v in timings.items() if v is not None}
     print(json.dumps(report, indent=2))
     sys.exit(0 if overall_ok else 1)
 
