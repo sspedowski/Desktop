@@ -15,6 +15,7 @@ import pandas as pd
 
 from pipeline.gpt5_client import get_client
 from pipeline.utils.io_utils import write_text
+from pipeline.utils.pdf_export import bulk_convert
 from pipeline.utils.text_extract import extract_text
 
 PROMPTS_DIR = Path("pipeline/prompts")
@@ -100,6 +101,13 @@ def main():
         print("Task C complete.")
 
     print(f"Outputs written to: {out_dir}")
+    # PDF export stage
+    pdf_dir = Path("legal_export/pdf")
+    try:
+        converted = bulk_convert(out_dir, pdf_dir)
+        print(f"PDF export complete: {converted} files -> {pdf_dir}")
+    except Exception as e:
+        print(f"PDF export skipped (error): {e}")
 
 if __name__ == "__main__":
     main()
