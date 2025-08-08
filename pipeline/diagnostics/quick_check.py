@@ -118,20 +118,27 @@ def run_dry_pipeline(timing: bool=False):
         return r
 
 
-def scan_outputs():
+def scan_outputs(verbose: bool=False):
     outputs = list(OUTPUT_DIR.glob('*.md'))
     pdfs = list(PDF_DIR.glob('*.pdf'))
-    return {
+    data = {
         'md_files': len(outputs),
         'pdf_files': len(pdfs),
         'excel_exists': EXCEL.exists()
     }
+    if verbose:
+        data['md_list'] = [p.name for p in outputs]
+        data['pdf_list'] = [p.name for p in pdfs]
+    return data
 
 
 def main():
     parser = argparse.ArgumentParser(description='Justice File quick environment & pipeline checker')
     parser.add_argument('--deps-only', action='store_true', help='Only verify Python & imports; skip dry-run pipeline execution')
     parser.add_argument('--timing', action='store_true', help='Include timing metrics for steps')
+    parser.add_argument('--out', type=str, help='Write JSON report to this file path')
+    parser.add_argument('--verbose', action='store_true', help='Include detailed artifact file lists')
+    parser.add_argument('--no-exit-fail', action='store_true', help='Always exit 0 even if failures (CI collection)')
     args = parser.parse_args()
 
     timings = {}
@@ -148,7 +155,7 @@ def main():
     artifacts = {'md_files': 0, 'pdf_files': 0, 'excel_exists': EXCEL.exists()}
     if not (args.deps_only or auto_deps_only):
         t0 = time.time(); pipeline_result = run_dry_pipeline(timing=args.timing); timings['pipeline_run'] = round(time.time()-t0,3) if args.timing else None
-        t0 = time.time(); artifacts = scan_outputs(); timings['artifact_scan'] = round(time.time()-t0,3) if args.timing else None
+    t0 = time.time(); artifacts = scan_outputs(verbose=args.verbose); timings['artifact_scan'] = round(time.time()-t0,3) if args.timing else None
 
     overall_ok = py_info['ok'] and imports['pdf_engine_ok'] and all(imports.get(m) for m in CORE_MODULES)
     if not (args.deps_only or auto_deps_only):
@@ -167,7 +174,15 @@ def main():
     if args.timing:
         timings['total'] = round(time.time()-t_start,3)
         report['timings'] = {k:v for k,v in timings.items() if v is not None}
-    print(json.dumps(report, indent=2))
+    json_text = json.dumps(report, indent=2)
+    print(json_text)
+    if args.out:
+        try:
+            Path(args.out).write_text(json_text, encoding='utf-8')
+        except Exception as e:
+            print(f"[warn] Could not write report file: {e}")
+    if args.no_exit_fail:
+        sys.exit(0)
     sys.exit(0 if overall_ok else 1)
 
 if __name__ == '__main__':
