@@ -16,6 +16,7 @@ import pandas as pd
 from pipeline.gpt5_client import get_client
 from pipeline.utils.io_utils import write_text
 from pipeline.utils.pdf_export import bulk_convert
+from pipeline.utils.excel_sync import sync_markdowns
 from pipeline.utils.text_extract import extract_text
 
 PROMPTS_DIR = Path("pipeline/prompts")
@@ -108,6 +109,14 @@ def main():
         print(f"PDF export complete: {converted} files -> {pdf_dir}")
     except Exception as e:
         print(f"PDF export skipped (error): {e}")
+
+    # Excel sync stage
+    excel_path = Path("MASTER_JUSTICE_FILE_SUPREME_v1.xlsx")
+    try:
+        added = sync_markdowns(out_dir, excel_path, ",".join(sorted(tasks)), args.children, pdf_dir)
+        print(f"Excel sync: {added} new rows into AI_Outputs sheet.")
+    except Exception as e:
+        print(f"Excel sync skipped (error): {e}")
 
 if __name__ == "__main__":
     main()
