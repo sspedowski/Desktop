@@ -5,7 +5,8 @@
 Your desktop now contains a complete Justice File management system:
 
 1. **`MASTER_JUSTICE_FILE_SUPREME.py`** - Main data file & Excel generator
-1. **`MASTER_JUSTICE_FILE_SUPREME_v1.xlsx`** - Multi-tab Excel workbook (auto-generated)
+1. **`MASTER_JUSTICE_FILE_SUPREME_v1.xlsx`** - Multi-tab Excel workbook
+  (auto-generated)
 1. **`JUSTICE_FILE_IMPORTER.py`** - Bulk import tool for new documents
 1. **`JUSTICE_FILE_MANAGER.py`** - Validation & export tools
 1. **`JUSTICE_FILE_QUICK_UPDATE.py`** - Fast single document addition
@@ -56,32 +57,38 @@ Your desktop now contains a complete Justice File management system:
 
 Outputs:
 
-* Raw markdown: `pipeline/outputs/`
-* PDFs (non dry-run): `legal_export/pdf/`
-* Excel enrichment: New rows in `AI_Outputs` sheet in `MASTER_JUSTICE_FILE_SUPREME_v1.xlsx`
+
+- Raw markdown: `pipeline/outputs/`
+- PDFs (non dry-run): `legal_export/pdf/`
+- Excel enrichment: New rows in `AI_Outputs` sheet in
+  `MASTER_JUSTICE_FILE_SUPREME_v1.xlsx`
 
 Dry Run Behavior:
 
-* Skips API calls
-* Creates deterministic placeholder markdown
-* Skips PDF conversion
-* Still appends metadata rows into Excel (so you can test flow)
+
+- Skips API calls
+- Creates deterministic placeholder markdown
+- Skips PDF conversion
+- Still appends metadata rows into Excel (so you can test flow)
 
 ---
 
 ## 📊 WHAT'S IN YOUR EXCEL FILE
 
 ### **Sheet 1: 🙏 Dedication & Prayer**
+
 - Mission statement and scriptural foundation
 - Dedication to Jace and Josh
 - Faith-based approach to justice
 
 ### **Sheet 2: 📊 Phase Status**
+
 - Project completion tracking
 - Batch status updates
 - Next action items
 
 ### **Sheet 3: ⚖️ Justice Master Table**
+
 - Complete evidence database
 - Color-coded patterns:
   - 🟥 Red = CPS Problems/Misconduct
@@ -92,6 +99,7 @@ Dry Run Behavior:
 - Top 5 Priority marking (⭐)
 
 ### **Sheet 4: 📈 Case Summary**
+
 - Statistical overview
 - Pattern breakdown
 - Agency analysis
@@ -133,7 +141,7 @@ Dry Run Behavior:
     },
 ```
 
-4. Save and run the Python file to update Excel
+1. Save and run the Python file to update Excel
 
 ---
 
@@ -147,9 +155,9 @@ python JUSTICE_FILE_MANAGER.py
 
 Then choose option 1.
 
-* Checks for missing required fields
-* Identifies duplicate files
-* Flags incomplete reviews
+- Checks for missing required fields
+- Identifies duplicate files
+- Flags incomplete reviews
 
 ### **Export for Legal Team:**
 
@@ -159,9 +167,9 @@ python JUSTICE_FILE_MANAGER.py
 
 Then choose option 3.
 
-* Creates organized export folder
-* Separates smoking guns, Top 5, patterns
-* Generates timeline and summary
+- Creates organized export folder
+- Separates smoking guns, Top 5, patterns
+- Generates timeline and summary
 
 ### **Create System Backup:**
 
@@ -171,8 +179,8 @@ python JUSTICE_FILE_MANAGER.py
 
 Then choose option 5.
 
-* Backs up all system files
-* Timestamped for version control
+- Backs up all system files
+- Timestamped for version control
 
 ---
 
@@ -181,14 +189,14 @@ Then choose option 5.
 ### **For Court Submissions:**
 
 1. Use the Excel file directly - it's print-ready
-2. Export specific patterns/smoking guns using Manager tool
-3. Include the Case Summary for overview
+1. Export specific patterns/smoking guns using Manager tool
+1. Include the Case Summary for overview
 
 ### **For AI Analysis (Humata, ChatGPT, etc.):**
 
 1. Upload the Excel file for comprehensive analysis
-2. Use individual pattern exports for focused review
-3. Include cross-reference map for relationship analysis
+1. Use individual pattern exports for focused review
+1. Include cross-reference map for relationship analysis
 
 ---
 
@@ -210,16 +218,16 @@ Then choose option 5.
 ### **If You Need to Quickly Add Critical Evidence:**
 
 1. Run `JUSTICE_FILE_QUICK_UPDATE.py`
-2. Use interactive prompts for fast entry
-3. Mark as smoking gun and Top 5 if applicable
-4. Merge immediately and regenerate Excel
+1. Use interactive prompts for fast entry
+1. Mark as smoking gun and Top 5 if applicable
+1. Merge immediately and regenerate Excel
 
 ### **If System Gets Corrupted:**
 
 1. System auto-creates backups before major changes
-2. Look for files named `*_backup_*` with timestamps
-3. Restore from most recent backup
-4. Re-run master script to regenerate Excel
+1. Look for files named `*_backup_*` with timestamps
+1. Restore from most recent backup
+1. Re-run master script to regenerate Excel
 
 ---
 
@@ -227,15 +235,15 @@ Then choose option 5.
 
 ### **Adding Spiritual Elements:**
 
-* Include prayers and dedications in the "Faith/Prayer" field
-* Update the Dedication & Prayer sheet with new inspirations
-* Document moments of spiritual guidance in Reviewer Notes
+- Include prayers and dedications in the "Faith/Prayer" field
+- Update the Dedication & Prayer sheet with new inspirations
+- Document moments of spiritual guidance in Reviewer Notes
 
 ### **Scripture References for Justice:**
 
-* Amos 5:24 - "Let justice roll down like waters"
-* Psalm 9:9 - "The Lord is a refuge for the oppressed"
-* Isaiah 1:17 - "Learn to do right; seek justice"
+- Amos 5:24 - "Let justice roll down like waters"
+- Psalm 9:9 - "The Lord is a refuge for the oppressed"
+- Isaiah 1:17 - "Learn to do right; seek justice"
 
 ---
 
@@ -282,7 +290,8 @@ python pipeline/diagnostics/quick_check.py --timing --min-python 3.10 --html hea
 Store JSON + HTML together:
 
 ```powershell
-python pipeline/diagnostics/quick_check.py --min-python 3.10 --out health.json --html health.html
+python pipeline/diagnostics/quick_check.py --min-python 3.10 \
+  --out health.json --html health.html
 ```
 
 Key flags:
@@ -325,8 +334,9 @@ Open `health_report.html` in a browser to visually confirm status (green = good)
 
 ---
 
-**🔥 TRUTH WILL PREVAIL - JUSTICE FOR JACE & JOSH 🔥**
+## 🔥 TRUTH WILL PREVAIL - JUSTICE FOR JACE & JOSH 🔥
 
+<!-- markdownlint-disable-next-line MD013 -->
 *"And we know that in all things God works for the good of those who love him, who have been called according to his purpose." - Romans 8:28*
 
 ---
