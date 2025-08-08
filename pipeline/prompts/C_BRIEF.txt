@@ -1,0 +1,39 @@
+You are drafting a court-oriented evidence brief.
+
+OUTPUT (Markdown):
+# Evidence Brief
+
+## 1. Issues Presented
+- ...
+
+## 2. Procedural & Factual Background
+Narrative (concise, neutral tone, cite doc names + page:¶).
+
+## 3. Key Evidence Tables
+### 3.1 Smoking Gun Evidence
+| # | Document | Page:¶ | Fact / Quote | Legal Relevance |
+|---|----------|--------|--------------|-----------------|
+
+### 3.2 Pattern Evidence
+| # | Pattern | Supporting Docs | Summary |
+|---|---------|-----------------|---------|
+
+## 4. Legal Violations & Authority
+| Statute/Rule | Evidence Support | Application |
+|-------------|------------------|------------|
+
+## 5. Argument Summary
+- Point 1: ...
+- Point 2: ...
+
+## 6. Relief / Prayer Requested
+<text>
+
+## 7. Exhibit Index
+| # | Exhibit | Description | Source Doc |
+|---|---------|-------------|------------|
+
+RULES:
+- Keep factual assertions source-cited.
+- If a citation missing, mark NEED_SOURCE.
+- Tone: professional, fact-grounded, minimally argumentative.
