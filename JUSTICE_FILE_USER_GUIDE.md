@@ -265,6 +265,66 @@ Then choose option 5.
 
 ---
 
+## 🩺 DIAGNOSTICS & HEALTH CHECKS
+
+Run quick dependency + version gate (fast, no pipeline execution):
+
+```powershell
+python pipeline/diagnostics/quick_check.py --deps-only --min-python 3.10
+```
+
+Full dry-run validation (no API cost) with timings + HTML report:
+
+```powershell
+python pipeline/diagnostics/quick_check.py --timing --min-python 3.10 --html health_report.html
+```
+
+Store JSON + HTML together:
+
+```powershell
+python pipeline/diagnostics/quick_check.py --min-python 3.10 --out health.json --html health.html
+```
+
+Key flags:
+
+- `--min-python X.Y` Enforce minimum Python version
+- `--deps-only` Skip pipeline dry-run
+- `--timing` Add duration metrics
+- `--out FILE` Save JSON
+- `--html FILE` Generate styled HTML
+- `--no-exit-fail` Always exit 0 (for collectors / CI)
+
+HTML report includes overview, version compliance, import health, optional
+pipeline dry-run status plus tail log, artifact paths, timings, and embedded
+JSON.
+
+### Pre-Commit Hook (Optional)
+
+Linux / macOS:
+
+```bash
+cp scripts/pre_commit_check.sh .git/hooks/pre-commit
+chmod +x .git/hooks/pre-commit
+```
+
+Windows:
+
+```powershell
+copy scripts\pre_commit_check.bat .git\hooks\pre-commit.bat
+```
+
+Removes by deleting the hook file or committing with `--no-verify`.
+
+Generate fresh health snapshot before sharing:
+
+```powershell
+python pipeline/diagnostics/quick_check.py --min-python 3.10 --html health_report.html
+```
+
+Open `health_report.html` in a browser to visually confirm status (green = good).
+
+---
+
 **🔥 TRUTH WILL PREVAIL - JUSTICE FOR JACE & JOSH 🔥**
 
 *"And we know that in all things God works for the good of those who love him, who have been called according to his purpose." - Romans 8:28*

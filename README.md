@@ -198,6 +198,81 @@ Extend `pipeline/utils/text_extract.py` with PDF/DOCX logic then allow `.pdf/.do
 
 ---
 
+## 🩺 Diagnostics & Health Checks
+
+Run the automated environment & pipeline validator:
+
+```powershell
+python pipeline/diagnostics/quick_check.py --deps-only --min-python 3.10
+```
+
+Full dry-run pipeline (no API cost) with timing and HTML report:
+
+```powershell
+python pipeline/diagnostics/quick_check.py --timing --min-python 3.10 --html health_report.html
+```
+
+Write JSON to file too:
+
+```powershell
+python pipeline/diagnostics/quick_check.py --min-python 3.10 --out health.json --html health.html
+```
+
+Key flags:
+
+- `--min-python X.Y` Enforce minimum interpreter version (fails if unmet)
+- `--deps-only` Skip pipeline dry-run (faster CI gate)
+- `--timing` Include step execution durations
+- `--out FILE` Save JSON report to disk
+- `--html FILE` Produce styled HTML summary (open in browser)
+- `--no-exit-fail` Always exit 0 (collect report without failing CI)
+
+HTML report contents:
+- Overall status banner
+- Python version compliance
+- Import presence (required & optional)
+- Pipeline dry-run status (tail of log if run)
+- Artifact paths (outputs, PDFs, Excel)
+- Timings (if requested)
+- Embedded raw JSON
+
+### Pre-Commit Hook (Optional)
+
+Prevent commits if dependencies or Python version are broken.
+
+Linux / macOS Git hook install:
+
+```bash
+cp scripts/pre_commit_check.sh .git/hooks/pre-commit
+chmod +x .git/hooks/pre-commit
+```
+
+Windows PowerShell / CMD Git hook install:
+
+```powershell
+copy scripts\pre_commit_check.bat .git\hooks\pre-commit.bat
+```
+
+What the hook does:
+- Enforces Python >= 3.10
+- Runs `quick_check.py --deps-only --timing --min-python 3.10`
+- Blocks commit on failure
+- Stores last JSON at `.git/quick_check_last.json`
+
+Remove / bypass:
+* Delete the hook file from `.git/hooks/`
+* Or commit with `--no-verify`
+
+Generate a fresh HTML health snapshot before packaging:
+
+```powershell
+python pipeline/diagnostics/quick_check.py --min-python 3.10 --html health_report.html
+```
+
+Open it in a browser to visually confirm green checks.
+
+---
+
 ## 🟧 Questions or Support?
 
 Contact: Stephanie Spedowski (Mother and Advocate)  
