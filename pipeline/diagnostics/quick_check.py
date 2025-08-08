@@ -41,9 +41,29 @@ ALT_MODULES = ['weasyprint', 'reportlab']  # Need at least one
 OPTIONAL_MODULES = ['tkinter']
 
 
-def check_python():
+def parse_version_tuple(spec: str):
+    parts = spec.strip().split('.')
+    try:
+        nums = [int(p) for p in parts if p.isdigit()]
+        while len(nums) < 2:
+            nums.append(0)
+        return tuple(nums[:3]) if len(nums) >= 3 else (nums[0], nums[1], 0)
+    except Exception:
+        return (0,0,0)
+
+def check_python(min_required: tuple[int,int,int]|None=None):
     ver = sys.version_info
-    return {'version': f'{ver.major}.{ver.minor}.{ver.micro}', 'ok': ver >= (3,9)}
+    meets_default = ver >= (3,9)
+    meets_user = True
+    if min_required:
+        meets_user = ver >= min_required
+    return {
+        'version': f'{ver.major}.{ver.minor}.{ver.micro}',
+        'ok': meets_default and meets_user,
+        'meets_default_3_9': meets_default,
+        'meets_min_spec': meets_user,
+        'min_required': '.'.join(str(x) for x in min_required) if min_required else None
+    }
 
 
 def check_imports():
@@ -139,11 +159,14 @@ def main():
     parser.add_argument('--out', type=str, help='Write JSON report to this file path')
     parser.add_argument('--verbose', action='store_true', help='Include detailed artifact file lists')
     parser.add_argument('--no-exit-fail', action='store_true', help='Always exit 0 even if failures (CI collection)')
+    parser.add_argument('--min-python', type=str, help='Minimum Python version required (e.g. 3.10)')
+    parser.add_argument('--html', type=str, help='Write an HTML report to the given file path')
     args = parser.parse_args()
 
     timings = {}
     t_start = time.time()
-    t0 = time.time(); py_info = check_python(); timings['python_check'] = round(time.time()-t0,3) if args.timing else None
+    min_spec = parse_version_tuple(args.min_python) if args.min_python else None
+    t0 = time.time(); py_info = check_python(min_spec); timings['python_check'] = round(time.time()-t0,3) if args.timing else None
     t0 = time.time(); imports = check_imports(); timings['import_check'] = round(time.time()-t0,3) if args.timing else None
 
     deps_missing = (not py_info['ok']) or (not imports['pdf_engine_ok']) or any(not imports.get(m) for m in CORE_MODULES)
@@ -181,6 +204,73 @@ def main():
             Path(args.out).write_text(json_text, encoding='utf-8')
         except Exception as e:
             print(f"[warn] Could not write report file: {e}")
+    if args.html:
+        try:
+            html = [
+                '<!DOCTYPE html><html><head><meta charset="utf-8"/>',
+                '<title>Justice File Health Report</title>',
+                '<style>body{font-family:Segoe UI,Arial,sans-serif;margin:20px;}h1{margin-top:0}pre{background:#111;color:#0f0;padding:12px;overflow:auto;}table{border-collapse:collapse;margin:16px 0;}td,th{border:1px solid #ccc;padding:6px 10px;font-size:14px;}th{background:#f5f5f5;text-align:left;} .bad{color:#b00;font-weight:bold;} .ok{color:#060;font-weight:bold;} .sec{margin-top:32px;} code{background:#eee;padding:2px 4px;border-radius:4px;} </style>',
+                '</head><body>',
+                '<h1>Justice File Health Report</h1>'
+            ]
+            html.append('<h2>Summary</h2><table>')
+            html.append('<tr><th>Overall OK</th><td class="{}">{}</td></tr>'.format('ok' if report['overall_ok'] else 'bad', report['overall_ok']))
+            html.append('<tr><th>Mode</th><td>{}</td></tr>'.format(report['mode']))
+            if report.get('note'):
+                html.append('<tr><th>Note</th><td>{}</td></tr>'.format(report['note']))
+            html.append('</table>')
+            # Python
+            py = report['python']
+            html.append('<h2>Python</h2><table>')
+            for k in ['version','min_required','meets_default_3_9','meets_min_spec','ok']:
+                if py.get(k) is not None:
+                    v = py.get(k)
+                    cls = 'ok' if v is True else ('bad' if v is False and k in ('ok','meets_min_spec','meets_default_3_9') else '')
+                    html.append(f'<tr><th>{k}</th><td class="{cls}">{v}</td></tr>')
+            html.append('</table>')
+            # Imports
+            html.append('<h2>Imports</h2><table>')
+            imp = report['imports']
+            for k,v in imp.items():
+                if isinstance(v,(list,tuple)):
+                    disp = ', '.join(v)
+                    html.append(f'<tr><th>{k}</th><td>{disp}</td></tr>')
+                else:
+                    cls = 'ok' if v is True else ('bad' if v is False and k not in ('tkinter',) else '')
+                    html.append(f'<tr><th>{k}</th><td class="{cls}">{v}</td></tr>')
+            html.append('</table>')
+            # Pipeline
+            html.append('<h2>Pipeline</h2><table>')
+            pipe = report['pipeline']
+            for k,v in pipe.items():
+                if k == 'tail':
+                    continue
+                html.append(f'<tr><th>{k}</th><td>{v}</td></tr>')
+            html.append('</table>')
+            if pipe.get('tail'):
+                tail_block = '\n'.join(pipe['tail'])
+                html.append('<h3>Log Tail</h3><pre>{}</pre>'.format(
+                    tail_block.replace('&','&amp;').replace('<','&lt;')
+                ))
+            # Artifacts
+            art = report['artifacts']
+            html.append('<h2>Artifacts</h2><table>')
+            for k,v in art.items():
+                html.append(f'<tr><th>{k}</th><td>{v}</td></tr>')
+            html.append('</table>')
+            # Timings
+            if report.get('timings'):
+                html.append('<h2>Timings</h2><table>')
+                for k,v in report['timings'].items():
+                    html.append(f'<tr><th>{k}</th><td>{v} s</td></tr>')
+                html.append('</table>')
+            html.append('<h2>Raw JSON</h2><pre>{}</pre>'.format(
+                json_text.replace('&','&amp;').replace('<','&lt;')
+            ))
+            html.append('</body></html>')
+            Path(args.html).write_text('\n'.join(html), encoding='utf-8')
+        except Exception as e:
+            print(f"[warn] Could not write HTML report: {e}")
     if args.no_exit_fail:
         sys.exit(0)
     sys.exit(0 if overall_ok else 1)
