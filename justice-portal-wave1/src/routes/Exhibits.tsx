@@ -3,7 +3,10 @@ export default function Exhibits(){
   return(<div className="p-6 max-w-6xl mx-auto">
     <div className="flex items-center justify-between mb-4">
       <h1 className="text-2xl font-semibold">Exhibits (Wave 1)</h1>
-      <a className="underline" href="#/viewer/README">How to Use</a>
+      <div className="flex gap-4">
+        <a className="underline" href="#/front">Front Matter</a>
+        <a className="underline" href="#/viewer/README">How to Use</a>
+      </div>
     </div>
     <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-4">
       {exhibits.map(ex=>(<div key={ex.id} className="rounded-2xl border shadow-sm p-4 bg-white">
