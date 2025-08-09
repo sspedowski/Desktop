@@ -8,9 +8,15 @@ export default function AccessGate({children}:{children:React.ReactNode}){
     if(input.trim()===PASSPHRASE){
       localStorage.setItem(STORAGE_KEY,"ok");
       setOk(true);
-      if (!location.hash || location.hash === "#/" ) { location.hash = "#/front"; }
     } else alert("Incorrect passphrase.");
   }
+
+  useEffect(() => {
+    if (ok && (!location.hash || location.hash === "#/")) {
+      location.hash = "#/front";
+    }
+  }, [ok]);
+
   if(ok) return <>{children}</>;
   return(<div className="min-h-screen flex items-center justify-center p-6 bg-neutral-100">
     <div className="w-full max-w-md rounded-2xl shadow-lg bg-white p-6 space-y-4">
