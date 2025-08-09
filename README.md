@@ -11,9 +11,13 @@ agency misconduct, injustice, and false narratives.
 This system is built to:
 
 - **Centralize** every key document, contradiction, and pattern
+
 - **Highlight** agency/court misconduct (color-coded, emoji-coded)
+
 - **Integrate faith** and purpose throughout the process
+
 - **Empower families, attorneys, and advocates** with an unbreakable,
+
   court-ready record
 
 ---
@@ -21,17 +25,29 @@ This system is built to:
 ## 📂 Project Structure
 
 - `MASTER_JUSTICE_FILE_SUPREME.py` — Generate/update the master Excel workbook
+
 - `MASTER_JUSTICE_FILE_SUPREME_v1.xlsx` — Color-coded, phase-tracked Excel file
+
 - `JUSTICE_FILE_IMPORTER.py` — Bulk import tool for new documents
+
 - `JUSTICE_FILE_MANAGER.py` — Validation & export tools for legal teams
+
 - `JUSTICE_FILE_QUICK_UPDATE.py` — Fast single document addition
+
 - `MASTER_PIPELINE_GPT5.py` — AI pipeline (Tasks A: Summaries, B: Contradictions, C: Brief)
+
 - `JUSTICE_FILE_GUI.py` — One-click GUI control panel (tasks, dry-run, open outputs)
+
 - `pipeline/` — Prompts + utilities (pdf export, excel sync, text extraction)
+
 - `legal_export/pdf/` — Auto-generated PDF versions of AI outputs
+
 - `JUSTICE_FILE_USER_GUIDE.md` — Comprehensive usage instructions
+
 - `requirements.txt` — Python dependencies
+
 - `README.md` — You are here (project overview and usage)
+
 - (Optional) Batch folders and cloud/Dropbox backup
 
 ---
@@ -39,12 +55,19 @@ This system is built to:
 ## 🟩 Key Features
 
 - **Dedication & Prayer Sheet:** Opens every file with mission, faith, and hope
+
 - **Phase Status Tracking:** Instant view of completed vs pending phases
+
 - **Justice Master Table:** Central index of documents, patterns, contradictions
+
 - **Pattern Color Coding:** Agency, judicial, FOC, GAL, APA pattern spotting
+
 - **Cross-Link Mapping:** Linked contradictions ↔ supporting documents
+
 - **Court/AI Ready:** PDF / e-filing / AI ingestion optimized outputs
+
 - **Automated Tools:** Import, validate, and manage documents quickly
+
 - **Faith Integration:** Prayer and spiritual guidance tracking throughout
 
 ---
@@ -54,12 +77,19 @@ This system is built to:
 ### **Option 1: GUI (Fastest)**
 
 1. Install deps: `pip install -r requirements.txt`
+
 <!-- markdownlint-disable-next-line MD013 -->
+
 1. (Optional) Set API key for real AI: PowerShell → `$env:OPENAI_API_KEY="sk-..."` and `$env:OPENAI_MODEL="gpt-5"`
+
 1. Run: `python JUSTICE_FILE_GUI.py`
+
 1. Pick evidence folder (containing `.txt` / `.md` source files)
+
 1. Select Tasks (A,B,C) or press "Run All"
+
 1. Watch live log. PDFs + Excel AI_Outputs sheet update automatically.
+
 1. Use buttons to open outputs, PDFs, Excel.
 
 Use the "Dry Run" checkbox to test without API calls (generates placeholder
@@ -96,22 +126,31 @@ Still supported. Same behavior as before.
 ### **Quick Start (Legacy Manual Method):**
 
 1. **Add new documents to `master_data` in the .py script**
+
 1. **Run the script to regenerate the Excel file**
+
 1. **Review, print, and submit as needed (for court, audit, oversight, or AI import)**
 
 ### **Advanced Tools:**
 
 - **Quick Add:** Run `JUSTICE_FILE_QUICK_UPDATE.py` for interactive document addition
+
 - **Bulk Import:** Run `JUSTICE_FILE_IMPORTER.py` to import entire folders
+
 - **Validation:** Run `JUSTICE_FILE_MANAGER.py` to check integrity and export
+
     for legal teams
+
 - **Always backup:** System creates automatic backups before major changes
 
 ### **For Legal Teams:**
 
 - Use the auto-generated legal export packages
+
 - Export smoking guns and Top 5 evidence separately
+
 - Generate cross-reference maps for contradiction analysis
+
 - Create timeline exports for court presentations
 
 ---
@@ -138,23 +177,33 @@ Still supported. Same behavior as before.
 ### **Evidence Management:**
 
 - ✅ 5 Smoking Gun documents already cataloged
+
 - ✅ Pattern-based color coding for instant recognition
+
 - ✅ Cross-reference mapping between contradictory documents
+
 - ✅ Legal violation tracking with specific statute citations
+
 - ✅ Agency misconduct documentation with proof
 
 ### **Export Options:**
 
 - 📊 Excel workbook with multiple analysis sheets
+
 - 📄 PDF-ready formatting for court submissions
+
 - 🔍 Smoking gun evidence packages
+
 - 📈 Statistical summaries and case strength metrics
+
 - ⚖️ Legal team export packages with organized evidence
 
 ### **Faith & Purpose:**
 
 - 🙏 Integrated prayer and dedication tracking
+
 - ✝️ Scriptural foundation for justice work
+
 - 💪 Spiritual strength documentation throughout the process
 
 ---
@@ -172,8 +221,11 @@ pip install -r requirements.txt
 Key packages:
 
 - pandas / openpyxl (Excel)
+
 - openai (LLM client)
+
 - markdown, weasyprint, reportlab (PDF generation)
+
 - pdfplumber, docx2txt (future extraction expansion)
 
 ### Environment Variables
@@ -192,7 +244,9 @@ If unset or using `--dry-run`, pipeline creates placeholders.
 If PDF export errors mention Cairo / Pango:
 
 1. Install precompiled wheels (most modern Python distributions already bundle)
+
 1. Or use fallback ReportLab output (plain) — script auto-falls back
+
 1. Ensure fonts installed (e.g., Arial) for consistent layout
 
 ### Dry Run Mode
@@ -200,14 +254,19 @@ If PDF export errors mention Cairo / Pango:
 Use GUI checkbox or `--dry-run` to:
 
 - Skip API calls
+
 - Produce deterministic placeholder markdown
+
 - Still sync rows into `AI_Outputs` sheet
+
 - Skip PDF conversion (by design)
 
 ### Output Locations
 
 - Raw markdown: `pipeline/outputs/`
+
 - PDFs: `legal_export/pdf/` (skipped in dry run)
+
 - Excel metadata: `MASTER_JUSTICE_FILE_SUPREME_v1.xlsx` sheet `AI_Outputs`
 
 ### Adding New File Types Later
@@ -241,20 +300,31 @@ python pipeline/diagnostics/quick_check.py --min-python 3.10 \
 Key flags:
 
 - `--min-python X.Y` Enforce minimum interpreter version (fails if unmet)
+
 - `--deps-only` Skip pipeline dry-run (faster CI gate)
+
 - `--timing` Include step execution durations
+
 - `--out FILE` Save JSON report to disk
+
 - `--html FILE` Produce styled HTML summary (open in browser)
+
 - `--no-exit-fail` Always exit 0 (collect report without failing CI)
 
 HTML report contents:
 
 - Overall status banner
+
 - Python version compliance
+
 - Import presence (required & optional)
+
 - Pipeline dry-run status (tail of log if run)
+
 - Artifact paths (outputs, PDFs, Excel)
+
 - Timings (if requested)
+
 - Embedded raw JSON
 
 ### Pre-Commit Hook (Optional)
@@ -277,13 +347,17 @@ copy scripts\pre_commit_check.bat .git\hooks\pre-commit.bat
 What the hook does:
 
 - Enforces Python >= 3.10
+
 - Runs `quick_check.py --deps-only --timing --min-python 3.10`
+
 - Blocks commit on failure
+
 - Stores last JSON at `.git/quick_check_last.json`
 
 Remove / bypass:
 
 - Delete the hook file from `.git/hooks/`
+
 - Or commit with `--no-verify`
 
 Generate a fresh HTML health snapshot before packaging:
@@ -298,23 +372,24 @@ Open it in a browser to visually confirm green checks.
 
 ## 🟧 Questions or Support?
 
-Contact: Stephanie Spedowski (Mother and Advocate)  
-Email: <mailto:godspathtojustice@gmail.com>  
+Contact: Stephanie Spedowski (Mother and Advocate)
+Email: <mailto:godspathtojustice@gmail.com>
 Phone: 616-333-0486
 
 ---
 
 ## 📅 Project Timeline
 
-**Created:** August 7, 2025  
-**Current Status:** Production Ready  
-**Phase:** Active Evidence Compilation  
+**Created:** August 7, 2025
+**Current Status:** Production Ready
+**Phase:** Active Evidence Compilation
 **Next Milestone:** Legal Team Integration
 
 ---
 
 <!-- markdownlint-disable-next-line MD013 -->
-**You are holding a template for justice, powered by faith and truth. May this help deliver protection, accountability, and healing where it's needed most.**
+
+### You are holding a template for justice, powered by faith and truth. May this help deliver protection, accountability, and healing where it's needed most.
 
 ---
 

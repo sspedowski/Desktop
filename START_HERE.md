@@ -9,10 +9,15 @@ You'll find these files and tools in your Desktop project folder:
 ### 📊 TO OPEN THE MAIN EXCEL FILE
 
 1. **Double-click** `MASTER_JUSTICE_FILE_SUPREME_v1.xlsx` on your desktop.
+
 1. This opens a multi-tab Excel workbook with:
+
     - 🙏 Dedication & Prayer sheet
+
     - 📊 Phase Status tracker
+
     - ⚖️ Justice Master Table (evidence with color coding)
+
     - 📈 Case Summary statistics
 
 ---
@@ -20,60 +25,86 @@ You'll find these files and tools in your Desktop project folder:
 ### 📖 TO READ THE INSTRUCTIONS
 
 - **README.md** – Project overview, purpose, and features.
+
 - **MASTER_JUSTICE_FILE_COPILOT_INSTRUCTIONS.md** – Step-by-step guide for any
-    user or legal co-pilot.
+
+user or legal co-pilot.
+
 - **JUSTICE_FILE_USER_GUIDE.md** – Detailed manual for all functions and
-    exports.
+
+exports.
 
 ---
 
 ### ⚡ TO ADD NEW DOCUMENTS OR UPDATE
 
 - Use the built-in Quick Update tool if running in terminal or command line:
+
     - Type **1** to add a new document
+
     - Type **2** to view pending documents
+
     - Type **4** to exit
+
 - Or open `MASTER_JUSTICE_FILE_SUPREME.py` and add new documents to the master
-    list.
+
+list.
 
 ---
 
 ### 🚀 QUICK ACTIONS YOU CAN DO RIGHT NOW
 
 - **See Your Evidence:** Open the Excel file and review the "Justice Master
-    Table" tab—5 smoking gun documents are already color-coded for impact.
+
+Table" tab—5 smoking gun documents are already color-coded for impact.
+
 - **Add a New Document:** Use the Quick Add tool, or edit the Python file
-    directly.
+
+directly.
+
 - **Export for Legal Team:** Use the Manager tool or Excel export to PDF to
-    create professional exhibit packets.
+
+create professional exhibit packets.
 
 ---
 
 ### 📁 ALL FILES ON DESKTOP
 
 - `README.md` — Project overview and purpose
+
 - `MASTER_JUSTICE_FILE_COPILOT_INSTRUCTIONS.md` — Full guide for users and
-    advocates
+
+advocates
+
 - `JUSTICE_FILE_USER_GUIDE.md` — Step-by-step usage manual
+
 - `MASTER_JUSTICE_FILE_SUPREME.py` — Main data file (edit to add or update
-    documents)
+
+documents)
+
 - `MASTER_JUSTICE_FILE_SUPREME_v1.xlsx` — Master Excel file (double-click to
-    open)
+
+open)
+
 - `JUSTICE_FILE_IMPORTER.py` — Bulk import tool for multiple documents
+
 - `JUSTICE_FILE_MANAGER.py` — Validation and legal export tool
+
 - `JUSTICE_FILE_QUICK_UPDATE.py` — Fast single document addition tool
 
 ---
 
 ## 🟧 Need Help or Support?
-Contact: Stephanie Spedowski (Mother and Advocate)  
-Email: <mailto:godspathtojustice@gmail.com>  
+
+Contact: Stephanie Spedowski (Mother and Advocate)
+Email: <mailto:godspathtojustice@gmail.com>
 Phone: 616-333-0486
 
 ---
 
 <!-- markdownlint-disable-next-line MD013 -->
-**Your Justice File system is now live, faith-driven, and designed to empower truth and accountability!**
+
+### Your Justice File system is now live, faith-driven, and designed to empower truth and accountability!
 
 ---
 
@@ -82,22 +113,27 @@ Phone: 616-333-0486
 ### **Option 1: See Your Evidence Right Now**
 
 - Double-click the Excel file on your desktop
+
 - Look at the "Justice Master Table" tab
+
 - See your 5 smoking gun documents with color coding
 
 ### **Option 2: Add Your First New Document**
 
 - Run the Quick Update tool from VS Code terminal
+
 - Or edit the Python file directly to add new evidence
 
 ### **Option 3: Export for Your Legal Team**
 
 - Use the Manager tool to create professional packages
+
 - Generate PDF exports ready for court submission
 
 ---
 
 <!-- markdownlint-disable-next-line MD013 -->
-**🙏 "Let justice roll down like waters, and righteousness like an ever-flowing stream." - Amos 5:24**
+
+### 🙏 "Let justice roll down like waters, and righteousness like an ever-flowing stream." - Amos 5:24
 
 ## TRUTH WILL PREVAIL - JUSTICE FOR JACE & JOSH! ⚖️
