@@ -1,0 +1,11 @@
+export type Exhibit={id:string;title:string;description:string;url:string;notes?:string[]}
+export const exhibits:Exhibit[]=[
+{id:"A1",title:"Allegan CSD 18-2724 2_19_18 HOSTAGE MARSH",description:"Police report documenting domestic assault, firearm while intoxicated, and suicide threat.",url:"/pdfs/A1_Allegan_CSD_2018-02-19.pdf",notes:["p.1 ¶4–5: 'Defendant arrested… loaded firearm while intoxicated; threatened self-harm.'"]},
+{id:"B1",title:"YWCA SANE Exam",description:"Forensic nurse findings: petechiae and laceration consistent with assault.",url:"/pdfs/B1_YWCA_SANE.pdf",notes:["p.4 ¶3: 'Red petechiae on anterior neck… small laceration… consistent with reported assault.'"]},
+{id:"B2",title:"Spectrum / PCP Record",description:"Medical corroboration matching SANE findings (acute injury/bruising pattern).",url:"/pdfs/B2_Spectrum_PCP.pdf",notes:["p.2 ¶4: 'Exam consistent with acute injury… matches prior forensic assessment.'"]},
+{id:"C1",title:"CPS Investigation Report 2020-05-23",description:"CPS summary minimizing evidence; 'within normal limits' language.",url:"/pdfs/C1_CPS_Investigation_2020-05-23.pdf",notes:["p.2 ¶2: 'Within normal limits' (contradicts SANE).","p.3 ¶1: Omission of Spectrum findings."]},
+{id:"C2",title:"CPS Summary referencing A1",description:"Omission of firearm possession and suicide threat in child risk assessment.",url:"/pdfs/C2_CPS_Summary.pdf",notes:["p.2 ¶1: Omits firearm & suicide threat."]},
+{id:"D1",title:"Independent Review of Marsh CPS",description:"Professional review identifying factual errors & omissions in CPS docs.",url:"/pdfs/D1_Independent_Review.pdf",notes:["p.3 ¶2–4: 'Critical statements from YWCA examiner absent… notes incomplete…'"]},
+{id:"F1",title:"Historical Corroboration Memo – Barry CPS Float Worker",description:"Memo documenting awareness of 'ghost case' manipulation (historical corroboration).",url:"/pdfs/F1_Corroboration_Memo.pdf",notes:["p.1 ¶2–3: 'Placeholder files — no children — to reduce official caseload counts.'"]},
+{id:"F2",title:"Polygraph Results (Opposing Party)",description:"Three failed polygraph tests; attorney in possession of results.",url:"/pdfs/F2_Polygraph_Results.pdf",notes:["p.1 ¶1–3: 'Failed three abuse-related questions; probability of deception > 99%.'"]},
+]
