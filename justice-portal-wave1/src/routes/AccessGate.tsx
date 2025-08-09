@@ -3,7 +3,14 @@ const STORAGE_KEY="justice_portal_access_v1"; const PASSPHRASE="JACE+JOSH2025"; 
 export default function AccessGate({children}:{children:React.ReactNode}){
   const [ok,setOk]=useState(false); const [input,setInput]=useState("");
   useEffect(()=>{ setOk(localStorage.getItem(STORAGE_KEY)==="ok") },[]);
-  function submit(e:React.FormEvent){ e.preventDefault(); if(input.trim()===PASSPHRASE){localStorage.setItem(STORAGE_KEY,"ok"); setOk(true)} else alert("Incorrect passphrase.")}
+  function submit(e:React.FormEvent){
+    e.preventDefault();
+    if(input.trim()===PASSPHRASE){
+      localStorage.setItem(STORAGE_KEY,"ok");
+      setOk(true);
+      if (!location.hash || location.hash === "#/" ) { location.hash = "#/front"; }
+    } else alert("Incorrect passphrase.");
+  }
   if(ok) return <>{children}</>;
   return(<div className="min-h-screen flex items-center justify-center p-6 bg-neutral-100">
     <div className="w-full max-w-md rounded-2xl shadow-lg bg-white p-6 space-y-4">
