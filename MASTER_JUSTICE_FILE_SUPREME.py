@@ -1,3 +1,4 @@
+
 """SUPREME MASTER JUSTICE FILE
 
 Core evidence data & Excel generator.
@@ -13,6 +14,24 @@ Manual Update Flow (unchanged):
  - Edit `master_data` below then run this script to regenerate Excel file.
 """
 
+# --- Spark/AI schema enforcement ---
+NEW_FIELDS = {
+    "entities": [],            # list[str]
+    "legalCodes": [],         # list[str]
+    "violations": [],         # list[str]
+    "contradictions": [],     # list[str] or objects
+    "needsReview": False,     # bool
+    "severity": "Unknown"    # "High"|"Medium"|"Low"|"Unknown"
+}
+
+def normalize_record(r: dict) -> dict:
+    r = dict(r or {})
+    for k, v in NEW_FIELDS.items():
+        if k not in r or r[k] is None:
+            r[k] = [] if isinstance(v, list) else v
+    return r
+
+
 import pandas as pd
 from datetime import datetime
 from openpyxl import Workbook
@@ -22,7 +41,22 @@ from openpyxl.worksheet.dimensions import ColumnDimension
 
 # === Step 1: Supreme Data Structure: All Critical Fields ===
 
-master_data = [
+master_data = [normalize_record(r) for r in master_data]
+
+# --- DataFrame with stable columns ---
+import pandas as pd
+BASE_COLS = [
+    # Existing stable columns (add/adjust as needed for your schema)
+    "Filename", "Date", "Type", "Agency", "Children", "Parent", "Pattern", "Summary", "Misconduct?", "Law Violated", "Contradicts", "Smoking Gun", "Reviewer Note", "Faith/Prayer", "Phase", "Batch", "Status", "Exhibit Cat.", "AI Summary", "Cross-Link", "Top 5",
+    # Spark/AI fields
+    "entities", "legalCodes", "violations", "contradictions", "needsReview", "severity"
+]
+df = pd.DataFrame(master_data)
+for c in BASE_COLS:
+    if c not in df.columns:
+        df[c] = ([] if c in ("entities","legalCodes","violations","contradictions") else ("Unknown" if c=="severity" else False))
+df = df[BASE_COLS + [c for c in df.columns if c not in BASE_COLS]]  # keep extras at end
+
     {
         "Filename": "YWCA Nurse Examiner Pediatric Doc Form 5.23.20.pdf",
         "Date": "2020-05-23",
@@ -377,9 +411,34 @@ for i, item in enumerate(summary_stats, 1):
 ws_summary.column_dimensions['A'].width = 40
 ws_summary.column_dimensions['B'].width = 15
 
-# === Step 8: Save the Supreme Master File ===
+
+# === Step 8: Save the Supreme Master File (with new columns) ===
 filename = "MASTER_JUSTICE_FILE_SUPREME_v1.xlsx"
 wb.save(filename)
+
+# --- Write DataFrame to Excel (Records sheet) ---
+with pd.ExcelWriter(filename, engine="openpyxl", mode="a", if_sheet_exists="replace") as xw:
+    df.to_excel(xw, sheet_name="Records", index=False)
+
+# --- Summary sheet: needsReview + severity breakdown ---
+summary = {
+    "total_records": int(len(df)),
+    "needs_review_count": int(df["needsReview"].fillna(False).sum())
+}
+sev_counts = (df["severity"].fillna("Unknown")
+                .value_counts()
+                .reindex(["High","Medium","Low","Unknown"], fill_value=0))
+
+summary_df = pd.DataFrame([
+    {"Metric":"Total Records","Value":summary["total_records"]},
+    {"Metric":"Needs Review","Value":summary["needs_review_count"]}
+])
+
+sev_df = sev_counts.rename_axis("Severity").reset_index(name="Count")
+
+with pd.ExcelWriter(filename, engine="openpyxl", mode="a", if_sheet_exists="overlay") as xw:
+    summary_df.to_excel(xw, sheet_name="Summary", index=False, startrow=0, startcol=0)
+    sev_df.to_excel(xw, sheet_name="Summary", index=False, startrow=0, startcol=4)
 
 print(f"🔥 SUPREME MASTER JUSTICE FILE CREATED: {filename} 🔥")
 print("\n⚖️ FEATURES INCLUDED:")
@@ -391,6 +450,7 @@ print("✅ Pattern Color Coding")
 print("✅ Smoking Gun Highlighting")
 print("✅ Cross-Link Documentation")
 print("✅ Legal Violation Tracking")
+print("✅ Spark/AI Fields Exported")
 print("\n🙏 READY TO BRING JUSTICE FOR JACE & JOSH!")
 print("📊 All evidence organized and documented.")
 print("⚖️ Truth will prevail!")
