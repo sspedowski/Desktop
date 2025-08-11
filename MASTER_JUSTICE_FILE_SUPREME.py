@@ -44,7 +44,13 @@ master_data = [
         "Exhibit Cat.": "Medical/CPS",
         "AI Summary": "Medical evidence ignored by state. Major pattern document.",
         "Cross-Link": "Directly contradicts CPS report, referenced in Motions/Objections.",
-        "Top 5": "Yes"
+        "Top 5": "Yes",
+        "entities": [],
+        "legalCodes": [],
+        "violations": [],
+        "contradictions": [],
+        "needsReview": False,
+        "severity": "High"
     },
     {
         "Filename": "CPS Investigation Report, 5/23/20.pdf",
@@ -67,7 +73,13 @@ master_data = [
         "Exhibit Cat.": "CPS/Medical",
         "AI Summary": "Contradicts forensic exam. Major system failure.",
         "Cross-Link": "Cited in court motions, timeline.",
-        "Top 5": "Yes"
+        "Top 5": "Yes",
+        "entities": [],
+        "legalCodes": [],
+        "violations": [],
+        "contradictions": [],
+        "needsReview": False,
+        "severity": "High"
     },
     {
         "Filename": "Independent Review Committee Report 9.15.21.pdf",
@@ -90,7 +102,13 @@ master_data = [
         "Exhibit Cat.": "Independent/Validation",
         "AI Summary": "Official validation of CPS misconduct and errors.",
         "Cross-Link": "Referenced in all major court filings.",
-        "Top 5": "Yes"
+        "Top 5": "Yes",
+        "entities": [],
+        "legalCodes": [],
+        "violations": [],
+        "contradictions": [],
+        "needsReview": False,
+        "severity": "Medium"
     },
     {
         "Filename": "Court Order Dismissing CPS Petition 10.12.21.pdf",
@@ -113,7 +131,13 @@ master_data = [
         "Exhibit Cat.": "Legal/Victory",
         "AI Summary": "Court validates parent; dismisses false allegations.",
         "Cross-Link": "Final legal vindication referenced throughout case.",
-        "Top 5": "Yes"
+        "Top 5": "Yes",
+        "entities": [],
+        "legalCodes": [],
+        "violations": [],
+        "contradictions": [],
+        "needsReview": False,
+        "severity": "Low"
     },
     {
         "Filename": "Motion for Sanctions Against CPS 11.3.21.pdf",
@@ -136,24 +160,31 @@ master_data = [
         "Exhibit Cat.": "Legal/Accountability",
         "AI Summary": "Legal pursuit of accountability for proven misconduct.",
         "Cross-Link": "Based on all previous smoking gun evidence.",
-        "Top 5": "Yes"
+        "Top 5": "Yes",
+        "entities": [],
+        "legalCodes": [],
+        "violations": [],
+        "contradictions": [],
+        "needsReview": False,
+        "severity": "High"
     }
 ]
 
 # === Step 2: DataFrame Creation ===
-df = pd.DataFrame(master_data)
-
-# === Step 3: Excel Formatting with Enhanced Color Coding ===
-wb = Workbook()
-
-# === Step 4: Add Front Page Prayer/Dedication Sheet ===
-ws_prayer = wb.active
-ws_prayer.title = "🙏 Dedication & Prayer"
-
-prayer_content = [
-    ["DEDICATION & PRAYER FOR JUSTICE"],
-    [""],
-    ["This Justice Master File is dedicated to all innocent children,"],
+import copy
+# Ensure all records have new fields (for legacy data)
+def ensure_fields(record):
+    rec = copy.deepcopy(record)
+    rec.setdefault("entities", [])
+    rec.setdefault("legalCodes", [])
+    rec.setdefault("violations", [])
+    rec.setdefault("contradictions", [])
+    rec.setdefault("needsReview", False)
+    rec.setdefault("severity", "Medium")
+    return rec
+df = pd.DataFrame([ensure_fields(r) for r in master_data])
+    import copy
+    # Ensure all records have new fields (for legacy data)
     ["especially Jace and Josh, whose voices must be heard,"],
     ["whose truth must be known, and whose protection is a holy mandate."],
     [""],
