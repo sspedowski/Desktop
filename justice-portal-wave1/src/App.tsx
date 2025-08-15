@@ -3,6 +3,7 @@ import Exhibits from "./routes/Exhibits";
 import Viewer from "./routes/Viewer";
 import Front from "./routes/Front";
 import { useEffect, useState } from "react";
+import { ConfirmationProvider } from "./contexts/ConfirmationContext";
 function useRoute() {
   const [route, setRoute] = useState<string>(location.hash || "#/");
   useEffect(() => {
@@ -25,8 +26,10 @@ function RouterView() {
 
 export default function App() {
   return (
-    <AccessGate>
-      <RouterView />
-    </AccessGate>
+    <ConfirmationProvider>
+      <AccessGate>
+        <RouterView />
+      </AccessGate>
+    </ConfirmationProvider>
   );
 }

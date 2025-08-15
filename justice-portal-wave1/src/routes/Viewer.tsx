@@ -1,7 +1,10 @@
-import { useEffect, useMemo, useState } from "react"; import { exhibits } from "../data/exhibits";
+import { useEffect, useMemo, useState } from "react";
+import { exhibits } from "../data/exhibits";
+import { useConfirmation } from "../contexts/ConfirmationContext";
 function useHashParam(){ const [id,setId]=useState<string|null>(null); useEffect(()=>{ const parse=()=>{ const m=location.hash.match(/#\/viewer\/(.+)$/); setId(m?decodeURIComponent(m[1]):null)}; parse(); addEventListener("hashchange",parse); return ()=>removeEventListener("hashchange",parse)},[]); return id }
 export default function Viewer(){
   const id=useHashParam(); const exhibit=useMemo(()=>exhibits.find(e=>e.id===id),[id]);
+  const { showConfirmation } = useConfirmation();
   if(!id) return <div className="p-6"><p className="text-sm">No exhibit selected. <a className="underline" href="#/exhibits">Back to list</a></p></div>;
   if(id==="README") return (<div className="max-w-3xl mx-auto p-6"><h1 className="text-2xl font-semibold mb-2">How to Use</h1>
     <ol className="list-decimal pl-5 space-y-2 text-sm"><li>Open an exhibit and review the PDF on the left.</li><li>Use the Notes panel to jump to highlighted pages (p./¶).</li><li>For context, see the Cover Letter & Executive Summary in your packet.</li></ol>
@@ -16,6 +19,21 @@ export default function Viewer(){
       <p className="text-sm text-neutral-700 mb-3">{exhibit.description}</p>
       {exhibit.notes?.length?(<><h3 className="font-medium mb-2">Highlight Notes</h3><ul className="list-disc pl-5 space-y-2 text-sm">
         {exhibit.notes.map((n,i)=><li key={i}>{n}</li>)}</ul></>):(<p className="text-sm text-neutral-500">No notes for this exhibit.</p>)}
-      <div className="mt-4"><a className="rounded-xl bg-black text-white px-3 py-2 text-sm" href={exhibit.url} target="_blank" rel="noreferrer">Open PDF in New Tab</a></div>
+      <div className="mt-4">
+        <button 
+          className="rounded-xl bg-black text-white px-3 py-2 text-sm" 
+          onClick={async () => {
+            const confirmed = await showConfirmation(
+              "Open PDF",
+              "Are you sure you want to open this PDF in a new tab?"
+            );
+            if (confirmed) {
+              window.open(exhibit.url, '_blank');
+            }
+          }}
+        >
+          Open PDF in New Tab
+        </button>
+      </div>
     </aside></div>)
 }
